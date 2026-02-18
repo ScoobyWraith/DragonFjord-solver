@@ -1,0 +1,49 @@
+.custom-date-input {
+  position: relative;
+  width: 100%;
+  max-width: 320px;
+  font-family: 'Inter', sans-serif;
+}
+
+.custom-date-input__field {
+  width: 100%;
+  padding: 0.75rem 2.5rem 0.75rem 1rem;
+  border-radius: 8px;
+  
+  border: 1px solid #e1e5e9;
+  background-color: #ffffff;
+  
+  font-size: 1rem;
+  color: #1f2937;
+  line-height: 1.5;
+  
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+  transition: all 0.2s ease;
+  
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.custom-date-input__field:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  z-index: 1;
+}
+
+.custom-date-input__field::placeholder {
+  color: #9ca3af;
+  opacity: 1;
+}
+
+.custom-date-input__field:disabled {
+  background-color: #f3f4f6;
+  border-color: #d1d5db;
+  color: #6b7280;
+  cursor: not-allowed;
+}
+
+.custom-date-input__field.is-invalid {
+  border-color: #ef4444;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+}
