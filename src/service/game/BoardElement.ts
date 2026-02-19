@@ -1,13 +1,19 @@
+import type IJsonSerializable from "../IJsonSerializable";
 import FigureForm from "./FigureForm";
 
 
-export default class BoardElement extends FigureForm {
+export default class BoardElement extends FigureForm implements IJsonSerializable<BoardElement> {
     private x: number;
     private y: number;
     private rotation: number;
 
     public constructor(...rows: string[]) {
-        super(rows.map(row => row.split("")));
+        if (rows.length == 0) {
+            super();
+        } else {
+            super(rows.map(row => row.split("")));
+        }
+
         this.x = 0;
         this.y = 0;
         this.rotation = 0;
@@ -61,5 +67,20 @@ export default class BoardElement extends FigureForm {
 
     public toJSON(): string {
         return this.toString();
+    }
+
+    serialize(): string {
+        return JSON.stringify([this.data, this.originalData, this.x, this.y, this.rotation]);
+    }
+
+    deserialize(jsonData: string): BoardElement {
+        const [data, originalData, x, y, rotation] = JSON.parse(jsonData);
+
+        this.data = data;
+        this.originalData = originalData;
+        this.x = x;
+        this.y = y;
+        this.rotation = rotation;
+        return this;
     }
 }

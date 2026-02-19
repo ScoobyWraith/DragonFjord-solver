@@ -1,12 +1,19 @@
+import type IJsonSerializable from "../IJsonSerializable";
 import type BoardElement from "./BoardElement";
 import FigureForm from "./FigureForm";
 
 
-export default class Board extends FigureForm {
-    private readonly originalStringData: string[][];
+export default class Board extends FigureForm implements IJsonSerializable<Board> {
+    private originalStringData: string[][];
     
-    public constructor(data: string[][]) {
+    public constructor(data?: string[][]) {
         super(data);
+
+        if (!data) {
+            this.originalStringData = [];
+            return;
+        }
+
         this.originalStringData = data;
     }
 
@@ -82,6 +89,19 @@ export default class Board extends FigureForm {
 
     public getTextFromCell(x: number, y: number): string {
         return this.originalStringData[y][x].match("#") ? "" : this.originalStringData[y][x].trim();
+    }
+
+    serialize(): string {
+        return JSON.stringify([this.data, this.originalData, this.originalStringData]);
+    }
+
+    deserialize(jsonData: string): Board {
+        const [data, originalData, originalStringData] = JSON.parse(jsonData);
+
+        this.data = data;
+        this.originalData = originalData;
+        this.originalStringData = originalStringData;
+        return this;
     }
 
     private isPointAvailableForMerge(x: number, y: number): boolean {

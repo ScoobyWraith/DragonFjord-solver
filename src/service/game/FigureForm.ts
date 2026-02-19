@@ -1,8 +1,14 @@
 export default class FigureForm {
     protected data: boolean[][];
-    protected readonly originalData: boolean[][];
+    protected originalData: boolean[][];
 
-    public constructor(data: string[][]) {
+    public constructor(data?: string[][]) {
+        if (!data) {
+            this.data = [];
+            this.originalData = [];
+            return;
+        }
+
         this.data = data.map(row => row.map(el => !!el.match("#")));
         this.originalData = this.data.map(row => row.slice());
     }

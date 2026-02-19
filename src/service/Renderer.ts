@@ -36,6 +36,15 @@ export default class Renderer {
         this.ctx.clearRect(0, 0, this.width, this.height);
     }
 
+    public drawimage(img: HTMLImageElement): void {
+        const scale: number = Math.min(this.width / img.width, this.height / img.height);
+        const newWidth: number = img.width * scale;
+        const newHeight: number = img.height * scale;
+        const x: number = (this.width - newWidth) / 2;
+        const y: number = (this.height - newHeight) / 2;
+        this.ctx.drawImage(img, x, y, newWidth, newHeight);
+    }
+
     public drawLines(lines: ICoordinates[][], styles: IDrawStyles = {}): void {
         const s: Required<IDrawStyles> = this.applyStyles(styles);
         const startPoint: ICoordinates[] = lines[0];
@@ -45,6 +54,8 @@ export default class Renderer {
 
         this.ctx.beginPath();
         this.ctx.moveTo(startPoint[0].x, startPoint[0].y);
+
+        this.ctx.getImageData
 
         for (let line of lines) {
             this.ctx.lineTo(line[0].x, line[0].y);
@@ -60,7 +71,6 @@ export default class Renderer {
         this.ctx.fillStyle = s.fillStyle;
         this.ctx.lineWidth = s.lineWidth;
         this.ctx.strokeStyle = s.strokeStyle;
-
         this.ctx.fillRect(x, y, width, height);
 
         if (s.lineWidth) {

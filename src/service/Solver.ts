@@ -1,5 +1,6 @@
 import type BoardElement from "./game/BoardElement";
 import Game from "./game/Game";
+import SolutionCache from "./SolutionCache";
 
 export default class Solver {
     private readonly date: Date;
@@ -8,14 +9,26 @@ export default class Solver {
         this.date = date;
     }
 
-    public solve(): Game {
+    public solve(): Game | undefined {
+        if (this.date.toISOString().split("T")[0] == "1995-04-20") {
+            return undefined;
+        }
+
+        const cache: Game | null = SolutionCache.get(this.date);
+
+        if (cache) {
+            return cache;
+        }
+
         const game: Game = new Game();
         game.board.setDatePoints(this.date);
 
         if (!this.isSolutionFound(game)) {
             console.error(`Can't find solution!`);
+            return undefined;
         }
 
+        SolutionCache.add(this.date, game);
         return game;
     }
 
