@@ -4,11 +4,13 @@ import FigureForm from "./FigureForm";
 export default class BoardElement extends FigureForm {
     private x: number;
     private y: number;
+    private rotation: number;
 
     public constructor(...rows: string[]) {
         super(rows.map(row => row.split("")));
         this.x = 0;
         this.y = 0;
+        this.rotation = 0;
     }
 
     public getX(): number {
@@ -19,6 +21,10 @@ export default class BoardElement extends FigureForm {
         return this.y;
     }
 
+    public getRotation(): number {
+        return this.rotation;
+    }
+
     public setPosition(x: number, y: number): this {
         this.x = x;
         this.y = y;
@@ -27,6 +33,7 @@ export default class BoardElement extends FigureForm {
 
     // clockwise 90 deg
     public rotate(): this {
+        this.rotation = (this.rotation + 1) % 4;
         const newData: boolean[][] = [];
 
         for (let col = 0; col < this.data[0].length; col++) {
@@ -40,6 +47,11 @@ export default class BoardElement extends FigureForm {
         }
 
         this.data = newData;
+        return this;
+    }
+
+    public flip(): this {
+        this.data = this.data.map(row => row.reverse());
         return this;
     }
 

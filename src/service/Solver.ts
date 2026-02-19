@@ -23,24 +23,28 @@ export default class Solver {
         const {board, elements} = game;
         const element: BoardElement = elements[elementIndex];
 
-        for (let i = 0; i < 4; i++) {
-            element.rotate();
+        for (let flip = 0; flip < 2; flip++) {
+            element.flip();
 
-            for (let x = 0; x < board.getWidth(); x++) {
-                for (let y = 0; y < board.getHeight(); y++) {
-                    element.setPosition(x, y);
+            for (let rotate = 0; rotate < 4; rotate++) {
+                element.rotate();
 
-                    if (board.canMerge(element)) {
-                        if (elementIndex == elements.length - 1) {
-                            return true;
-                        }
+                for (let x = 0; x < board.getWidth(); x++) {
+                    for (let y = 0; y < board.getHeight(); y++) {
+                        element.setPosition(x, y);
 
-                        board.merge(element);
+                        if (board.canMerge(element)) {
+                            if (elementIndex == elements.length - 1) {
+                                return true;
+                            }
 
-                        if (this.isSolutionFound(game, elementIndex + 1)) {
-                            return true;
-                        } else {
-                            board.unmerge(element);
+                            board.merge(element);
+
+                            if (this.isSolutionFound(game, elementIndex + 1)) {
+                                return true;
+                            } else {
+                                board.unmerge(element);
+                            }
                         }
                     }
                 }
