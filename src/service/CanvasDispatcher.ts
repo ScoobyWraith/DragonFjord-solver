@@ -62,7 +62,7 @@ export default class CanvasDispatcher {
         let elementIndex: number = 0;
 
         for (let boardElement of elements) {
-            const color: string = ColorUtils.addAlphaToHex(colors[elementIndex++], 80);
+            const color: string = ColorUtils.addAlphaToHex(colors[elementIndex++], 85);
             this.drawBoardElement({ renderer, board, canvasSize, cellSize, boardElement, color});
         }
     }
